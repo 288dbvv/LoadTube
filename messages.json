@@ -1,0 +1,12 @@
+{
+	"Exceptions" : {
+		"id_parser": "Incorrect URL. Please, paste correct URL and repeat!"
+	},
+	"Commands" : 
+	{
+		"/start": "Please, paste URL of video in message and send",
+		"/help": "Paste URL of video in message and send",
+		"/news" : "19.01.2024: Fixed issue with audio in video",
+		"/updates" : "In future will be fix prombels with video downloading"
+	}
+}
