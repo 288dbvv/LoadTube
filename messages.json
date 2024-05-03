@@ -1,6 +1,8 @@
 {
+	"Preparing" : "Preparing",
 	"Exceptions" : {
-		"id_parser": "Incorrect URL. Please, paste correct URL and repeat!"
+		"id_parser": "Incorrect URL. Please, paste correct URL and repeat!",
+		"not_available" : "This video is not available"
 	},
 	"Commands" : 
 	{

@@ -65,7 +65,6 @@ class YouTubeAPI
 		$ex = fn ($x, $y) => explode($x, $y);
 		$req = $ex("/", $req);
 		$lie($req, $ex("?", $li($req)));
-		print_r($req);
 		if ($req[2] == "youtu.be")
 		{
 			return $req[3][0];
@@ -133,7 +132,19 @@ class YouTubeAPI
 		$this->getVideoData($headers, $base_data, $query, $videoData, "WEB");
 		$this->videoThumbnailUrl = end($videoData->videoDetails->thumbnail->thumbnails)->url;
 		$this->videoTitle = $videoData->videoDetails->title;
-		$this->getVideoData($headers, $base_data, $query, $videoData, "ANDROID_EMBED");
+		foreach (['ANDROID_EMBED',"ANDROID_MUSIC"] as $value) {
+			$this->getVideoData($headers, $base_data, $query, $videoData, $value);
+			if (array_key_exists("streamingData", (array)$videoData))
+			{
+				break;
+			}
+		}
+		if (!array_key_exists("streamingData", (array)$videoData))
+		{
+			throw new Exception(
+				$this->messages->Exceptions->not_available
+			);
+		}
 		foreach ($videoData->streamingData->formats as $value)
 		// adaptiveFormats haven't sound in video 
 		{
@@ -216,7 +227,7 @@ class YouTubeAPI
 		$end_pos = $file_size - 1;
 		$message_id = $obj->sendMessage(
 			$chat_id,
-			"Preparing: 0%"
+			$this->messages->Preparing.": 0%"
 		);
 		// Write video in file
 		while ($stop_pos != $end_pos) {
@@ -238,7 +249,7 @@ class YouTubeAPI
 			$obj->editMessage(
 				$chat_id,
 				$message_id,
-				"Preparing: {$complete}%"
+				$this->messages->Preparing.": {$complete}%"
 			);
 			curl_close($ch);
 		}
